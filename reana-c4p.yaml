@@ -1,0 +1,22 @@
+version: 0.1.0
+inputs:
+  files:
+    - HZZAnalysis.ipynb
+    - infofile.py
+  parameters:
+    notebook_in: HZZAnalysis.ipynb
+    notebook_out: results/output_notebook.ipynb
+    output_plot: results/ATLAS_plot.png
+workflow:
+  type: serial
+  specification:
+    steps:
+      - name: analysis
+        environment: 'wlcg-wn:latest'
+        compute_backend: compute4punch
+        commands:
+        - mkdir -p results
+        - papermill ${notebook_in} ${notebook_out} -p output_file ${output_plot} -k python3  
+outputs:
+  files:
+    - results/ATLAS_plot.png
